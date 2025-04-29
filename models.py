@@ -1,3 +1,4 @@
+from pydantic import ConfigDict
 from sqlmodel import SQLModel, Field
 from typing import Optional
 from datetime import datetime
@@ -33,3 +34,9 @@ class Tarea(SQLModel, table=True):
     fecha_modificacion: datetime
     estado: EstadoTarea
     usuario_id: int = Field(foreign_key="usuario.id")
+
+class TareaBase(BaseModel):
+    nombre: str
+    descripcion: str
+    estado: EstadoTarea
+    usuario_id: int

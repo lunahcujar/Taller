@@ -27,23 +27,15 @@ async def say_hello(name: str):
 
 from db_conection import get_session
 
-@app.post("/db", response_model=Tarea)
-def create_task(
-    nueva_tarea: Tarea,
-    session: Session = Depends(get_session),
-):
-    new_task = Tarea(
-        nombre=nueva_tarea.nombre,
-        descripcion=nueva_tarea.descripcion,
-        fecha_creacion=datetime.now(),
-        fecha_modificacion=datetime.now(),
-        estado=nueva_tarea.estado,
-        usuario_id=nueva_tarea.usuario_id,
+@app.post("/Agregar_Tarea", response_model=Tarea)
+def Add_tarea(tarea: Tarea):
+    nueva_tarea = agregar_tarea(
+        nombre=tarea.nombre,
+        descripcion=tarea.descripcion,
+        estado=tarea.estado,
+        usuario_id=tarea.usuario_id
     )
-    session.add(new_task)
-    session.commit()
-    session.refresh(new_task)
-    return new_task
+    return nueva_tarea
 
 @app.on_event("startup")
 def on_startup():
